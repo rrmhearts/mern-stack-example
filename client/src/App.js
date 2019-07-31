@@ -8,7 +8,7 @@ class App extends Component {
     data: [],
     id: 0,
     message: null,
-    intervalIsSet: false,
+    interval: null,
     idToDelete: null,
     idToUpdate: null,
     objectToUpdate: null,
@@ -19,19 +19,16 @@ class App extends Component {
   // changed and implement those changes into our UI
   componentDidMount() {
     this.getDataFromDb();
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-    }
+    this.setState({ interval: setInterval(this.getDataFromDb, 1000) });
+    
   }
 
   // never let a process live forever
   // always kill a process everytime we are done using it
   componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-    }
+    clearInterval(this.state.interval);
+    this.setState({ interval: null });
+    
   }
 
   // just a note, here, in the front end, we use the id key of our data object
@@ -49,7 +46,7 @@ class App extends Component {
 
   // our put method that uses our backend api
   // to create new query into our data base
-  putDataToDB = (message) => {
+  addToDB = (message) => {
     let currentIds = this.state.data.map((data) => data.id);
     let idToBeAdded = 0;
     while (currentIds.includes(idToBeAdded)) {
@@ -65,11 +62,11 @@ class App extends Component {
   // our delete method that uses our backend api
   // to remove existing database information
   deleteFromDB = (idTodelete) => {
-    parseInt(idTodelete);
+    idTodelete = parseInt(idTodelete);
     let objIdToDelete = null;
     this.state.data.forEach((dat) => {
-      if (dat.id == idTodelete) {
-        objIdToDelete = dat._id;
+      if (dat.id === idTodelete) {
+        objIdToDelete = dat._id; // what is with this underscore??
       }
     });
 
@@ -84,10 +81,10 @@ class App extends Component {
   // to overwrite existing data base information
   updateDB = (idToUpdate, updateToApply) => {
     let objIdToUpdate = null;
-    parseInt(idToUpdate);
+    idToUpdate = parseInt(idToUpdate);
     this.state.data.forEach((dat) => {
-      if (dat.id == idToUpdate) {
-        objIdToUpdate = dat._id;
+      if (dat.id === idToUpdate) {
+        objIdToUpdate = dat._id; // what is with this underscore??
       }
     });
 
@@ -122,7 +119,7 @@ class App extends Component {
                 style={{ width: '200px' }}
               />
               <button style={{ padding: '5px', width: '70px', color: 'black', backgroundColor: '#61dafb', 
-                               borderColor: '#61dafb', marginLeft: '5px'}} onClick={() => this.putDataToDB(this.state.message)}>
+                               borderColor: '#61dafb', marginLeft: '5px'}} onClick={() => this.addToDB(this.state.message)}>
                 ADD
               </button>
             </div>
