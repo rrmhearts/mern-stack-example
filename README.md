@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## App details
+Start both server and client with `npm start` in the top level.
+
+MERN stack example based on create-react-app
 ## Available Scripts
 
 In the project directory, you can run:
