@@ -12,15 +12,21 @@ class App extends Component {
     idToDelete: null,
     idToUpdate: null,
     objectToUpdate: null,
+    apiResponse: "failing",
   };
 
+  callAPI() {
+    fetch("http://localhost:3001/api/testAPI")
+      .then(res => res.text())
+      .then((res) => this.setState({apiResponse: res}));
+  }
   // when component mounts, first thing it does is fetch all existing data in our db
   // then we incorporate a polling logic so that we can easily see if our db has
   // changed and implement those changes into our UI
   componentDidMount() {
+    this.callAPI();
     this.getDataFromDb();
     this.setState({ interval: setInterval(this.getDataFromDb, 1000) });
-    
   }
 
   // never let a process live forever
@@ -155,6 +161,8 @@ class App extends Component {
               >
                 UPDATE
               </button>
+              <p>{this.state.apiResponse}</p>
+
             </div>
           </div>
         </header>

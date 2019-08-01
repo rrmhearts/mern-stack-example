@@ -39,7 +39,35 @@ fetch(url) // Call the fetch function passing the url of the API as a parameter
 });
 ```
 
+### Cors
+The same-origin policy is a critical security mechanism that restricts how a document or script loaded from one origin can interact with a resource from another origin. It helps isolate potentially malicious documents, reducing possible attack vectors. Two URLs have the same origin if the protocol, port (if specified), and host are the same for both. You may see this referenced as the "scheme/host/port tuple", or just "tuple". 
 
+Cross-origin resource sharing (CORS) allows AJAX requests to skip the Same-origin policy and access resources from remote hosts.
+
+```
+var express = require('express');
+var cors = require('cors');
+var app = express();
+app.use(cors());
+```
+
+Enabling cors permits routes to cross scheme/host/port when fetching resources. It adds the following to HTTP headers: `Access-Control-Allow-Origin: *`. You can restrict cors by host as well.
+
+### Express
+Express provides HTTP utility methods. Quickens HTTP API development. This includes the Express Router.
+* Routing refers to how an application’s endpoints (URIs) respond to client requests. 
+* Permits logging and other middleware on HTTP get/post/put etc
+
+#### Express Router
+This lets you add end points to push/pull data from the server in a modular form. Let's you break out functionality into separate modules.
+
+```
+const router = express.Router();
+
+router.get('/testAPI', (req, res) => {
+    res.send("API is working properly");
+});
+```
 ## Available Scripts
 
 In the project directory, you can run:
